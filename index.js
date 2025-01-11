@@ -175,3 +175,48 @@ document.onmousemove = (e) => {
 document.onmouseup = () => {
     isRotating = false;
 };
+
+const requestPermission = document.getElementById('requestPermission');
+const alphaElement = document.getElementById('alpha');
+const betaElement = document.getElementById('beta');
+const gammaElement = document.getElementById('gamma');
+
+let alpha, beta, gamma;
+
+requestDeviceOrientation();
+
+function handleOrientation(e) {
+  function formatValue(value) {
+    const sign = value < 0 ? '-' : ''; 
+    const absoluteValue = Math.abs(value).toFixed(2).padStart(6, '0'); 
+    return sign + absoluteValue;
+  }
+  
+  let alpha = formatValue(e.alpha);
+  let beta = formatValue(e.beta);
+  let gamma = formatValue(e.gamma);
+  
+  alphaElement.innerHTML = `Z-Achse: ${alpha}°`;
+  gammaElement.innerHTML = `Y-Achse: ${gamma}°`;
+  betaElement.innerHTML = `X-Achse: ${beta}°`;
+}
+
+async function requestDeviceOrientation() {
+  // check if iOs 13+
+  if (typeof DeviceOrientationEvent != "undefined" && typeof DeviceOrientationEvent.requestPermission === "function") {
+    // iOs 13+
+    try {
+      const permissionState = await DeviceOrientationEvent.requestPermission();
+      if (permissionState === 'granted') {
+        window.addEventListener("deviceorientation", handleOrientation);
+      }
+    } catch(error) {
+      console.error(error);
+    }
+  } else if ("DeviceOrientationEvent" in window) {
+    window.addEventListener("deviceorientation", handleOrientation);
+  } else {
+    alert("not supported");
+  }
+}
+
