@@ -80,8 +80,8 @@ function handleOrientation(e) {
   let gamma = formatValue(e.gamma);
   
   alphaElement.innerHTML = `Z-Achse: ${alpha}°`;
-  betaElement.innerHTML = `X-Achse: ${beta}°`;
   gammaElement.innerHTML = `Y-Achse: ${gamma}°`;
+  betaElement.innerHTML = `X-Achse: ${beta}°`;
 }
 
 async function requestDeviceOrientation() {
