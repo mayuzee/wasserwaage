@@ -60,15 +60,28 @@ document.onmouseup = () => {
 };
 
 const requestPermission = document.getElementById('requestPermission');
+const alphaElement = document.getElementById('alpha');
+const betaElement = document.getElementById('beta');
+const gammaElement = document.getElementById('gamma');
 
 let alpha, beta, gamma;
 
 requestDeviceOrientation();
 
 function handleOrientation(e) {
-  alpha = Math.round(e.alpha * 100)/100;
-  beta = Math.round(e.beta * 100)/100;
-  gamma = Math.round(e.gamma * 100)/100;
+  function formatValue(value) {
+    const sign = value < 0 ? '-' : ''; 
+    const absoluteValue = Math.abs(value).toFixed(2).padStart(6, '0'); 
+    return sign + absoluteValue;
+  }
+  
+  let alpha = formatValue(e.alpha);
+  let beta = formatValue(e.beta);
+  let gamma = formatValue(e.gamma);
+  
+  alphaElement.innerHTML = `Z-Achse: ${alpha}°`;
+  betaElement.innerHTML = `X-Achse: ${beta}°`;
+  gammaElement.innerHTML = `Y-Achse: ${gamma}°`;
 }
 
 async function requestDeviceOrientation() {

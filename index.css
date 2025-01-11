@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
 * {
     margin: 0;
     padding: 0;
@@ -8,14 +10,34 @@ body {
     background-color: rgb(255, 255, 255);
     height: 100vh;
     width: 100%;
-    font-family: 'Arial', sans-serif;
+    font-family: "Poppins";
+    font-weight: lighter;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
 }
 
 h1 {
-    color: rgb(203, 203, 203);
+    color: rgb(33, 41, 67);
     text-align: center;
-    font-weight: 900;
-    font-size: 8vw;
+    font-size: 6vw;
+}
+
+p{
+    color: rgb(33, 41, 67);
+    font-weight: bolder;
+}
+
+#alpha, #beta, #gamma{
+    width: 20vw;
+    text-align: center;
+}
+
+.container{
+    display: flex;
+    justify-content: space-around;
+    margin: auto;
 }
 
 .wasserwaage-container {
@@ -46,4 +68,27 @@ img {
 .rotor:hover {
     transform: scale(1.1);
     cursor: grab;
+}
+
+.axis{
+    height: 3rem;
+    width: min-content;
+    margin-top: 2rem;
+}
+
+.beta .axis{
+    height: 6.5rem;
+    margin-top: 0;
+}
+
+#beta{
+    margin-top: 1.2rem;
+}
+
+.alpha, .beta, .gamma{
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    justify-content: center;
+    align-items: center;
 }
