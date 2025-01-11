@@ -37,13 +37,19 @@ img {
 }
 
 .rotor {
-    width: 9%;
+    width: 9.5%;
     top: 40%;
     left: 81%;
     position: absolute;
+    z-index: 2;
 }
 
 .rotor:hover {
-    transform: scale(1.1);
     cursor: grab;
+}
+
+.bubble {
+    z-index: 3;
+    width: 1.8%;
+    position: absolute;
 }
