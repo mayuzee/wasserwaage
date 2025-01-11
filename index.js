@@ -26,11 +26,6 @@ class Point2D {
     }
 }
 
-const point1 = new Point2D(0.5, 0.5);
-const point2 = new Point2D(0.2, 0.3);
-const point3 = point1 * point2;
-console.log(point3);
-
 class PointRange {
     constructor(min, max) {
         this.min = min;
@@ -42,6 +37,74 @@ class PointRange {
             this.min.x + value * (this.max.x - this.min.x),
             this.min.y + value * (this.max.y - this.min.y)
         );
+    }
+}
+
+const requestPermission = document.getElementById('request-permission');
+const alphaElement = document.getElementById('alpha');
+const betaElement = document.getElementById('beta');
+const gammaElement = document.getElementById('gamma');
+
+let alpha = 0;
+let beta = 0;
+let gamma = 0;
+const averageOver = 1;
+const updateDelay = 1000 / 30;
+let lastUpdate = 0;
+let infoShown = false;
+let permissionState = 'denied';
+
+function handleOrientation(e) {
+    const now = Date.now();
+    if (now - lastUpdate < updateDelay) return;
+    lastUpdate = now;
+
+    function formatValue(value) {
+        const sign = value < 0 ? '-' : '&nbsp;&nbsp;&nbsp;';
+        const absoluteValue = Math.abs(value).toFixed(0).padStart(3, '0');
+        return sign + absoluteValue;
+    }
+
+    alpha = e.alpha;
+    beta = e.beta;
+    gamma = e.gamma;
+
+    alphaElement.innerHTML = `Z: ${formatValue(alpha)}°`;
+    gammaElement.innerHTML = `Y: ${formatValue(beta)}°`;
+    betaElement.innerHTML = `X: ${formatValue(gamma)}°`;
+    updatePositions();
+}
+
+// window.requestDeviceOrientation = requestDeviceOrientation;
+
+async function requestDeviceOrientation() {
+    permissionState = 'awaiting';
+    removeInfo();
+
+    // check if iOs 13+
+    if (
+        typeof DeviceOrientationEvent != 'undefined' &&
+        typeof DeviceOrientationEvent.requestPermission === 'function'
+    ) {
+        // iOs 13+
+        try {
+            permissionState = await DeviceOrientationEvent.requestPermission();
+            if (permissionState === 'granted') {
+                window.addEventListener('deviceorientation', handleOrientation);
+            } else {
+                console.error('Permission could not be granted');
+                alert('Zugriff auf Bewegungssensoren wurde verweigert');
+            }
+        } catch (error) {
+            showInfo(
+                'Bitte erlauben Sie Zugriff auf die Bewegungssensoren. <button onclick="requestDeviceOrientation()">Ok</button>',
+                null
+            );
+        }
+    } else if ('DeviceOrientationEvent' in window) {
+        window.addEventListener('deviceorientation', handleOrientation);
+    } else {
+        alert('Ihr Gerät unterstützt keine Bewegungssensoren');
     }
 }
 
@@ -64,24 +127,62 @@ const bubbleHorizontalRange = new PointRange(
     new Point2D(0.522, 0.332)
 );
 
-let rotationX = 0;
-let rotationY = 0;
+let rotationX, rotationY;
 let isRotating = false;
 let rotorAngle = 0;
 let initialAngle = Math.PI / 4;
 
-// for testing ui make both rotations change from 0 to 1 and back to 0 periodically
-setInterval(() => {
-    rotationX = Math.cos(Date.now() / 1000) / 2 + 0.5;
-    rotationY = Math.sin(Date.now() / 1000) / 2 + 0.5;
-    updatePositions();
-}, 1000 / 60);
+function updateRotations() {
+    let yOrientation, xOrientation;
+
+    if (permissionState === 'denied' && !infoShown) requestDeviceOrientation();
+
+    if (permissionState === 'granted') {
+        if (
+            screen.orientation.type === 'portrait-primary' ||
+            screen.orientation.type === 'portrait-secondary'
+        ) {
+            if (infoShown) return;
+            showInfo('Drehen Sie Ihr Gerät für die optimale ✨Experience✨');
+            return;
+        } else if (infoShown) {
+            removeInfo();
+        }
+    }
+
+    switch (screen.orientation.type) {
+        case 'landscape-primary':
+            xOrientation = -beta;
+            yOrientation = -gamma;
+            break;
+        case 'landscape-secondary':
+            xOrientation = beta;
+            yOrientation = gamma;
+            break;
+        case 'portrait-secondary':
+            xOrientation = gamma;
+            yOrientation = -beta;
+            break;
+        case 'portrait-primary':
+            xOrientation = -gamma;
+            yOrientation = beta;
+            break;
+        default:
+            xOrientation = -gamma;
+            yOrientation = beta;
+            console.warn("The orientation API isn't supported in this browser");
+    }
+
+    rotationX = Math.min(1, Math.max(0, xOrientation / 90 + 0.5));
+    rotationY = Math.min(1, Math.max(0, yOrientation / 90 + 0.5));
+}
 
 function updatePositions() {
+    updateRotations();
+
     const { width, height } = container.getBoundingClientRect();
     const rotorPosition = new Point2D(0.812, 0.32);
-    rotor.style.left = rotorPosition.x * width + 'px';
-    rotor.style.top = rotorPosition.y * height + 'px';
+    rotorPosition.applyToElement(rotor, width, height);
 
     const bubbleVerticalPosition = bubbleVerticalRange.position(rotationY);
     const bubbleVerticalScaleX = 0.6 + Math.abs(0.5 - rotationY) * 0.8;
@@ -138,20 +239,23 @@ function updatePositions() {
     );
 }
 
-updatePositions();
 window.addEventListener('resize', updatePositions);
+window.addEventListener('load', updatePositions);
 
-// helper for development
-container.onclick = (e) => {
-    const x = e.offsetX / container.offsetWidth;
-    const y = e.offsetY / container.offsetHeight;
-    console.log(x, y);
-};
-
-rotor.onmousedown = () => {
+function handleClick(e) {
     isRotating = true;
     initialAngle = rotorAngle;
-};
+    e.preventDefault();
+}
+
+function rotateEnd() {
+    isRotating = false;
+}
+
+rotor.onmousedown = handleClick;
+rotor.ontouchstart = handleClick;
+rotor.onmouseup = rotateEnd;
+rotor.ontouchend = rotateEnd;
 
 rotor.onclick = (e) => {
     const { x, y, width, height } = rotor.getBoundingClientRect();
@@ -159,6 +263,8 @@ rotor.onclick = (e) => {
     const dy = e.clientY - y - height / 2;
     rotorAngle = Math.atan2(dy, dx) + Math.PI / 4;
     rotor.style.transform = `rotate(${rotorAngle}rad)`;
+
+    updatePositions();
 };
 
 document.onmousemove = (e) => {
@@ -168,55 +274,43 @@ document.onmousemove = (e) => {
         const dy = e.clientY - y - height / 2;
         rotorAngle = Math.atan2(dy, dx) - initialAngle;
         rotor.style.transform = `rotate(${rotorAngle}rad)`;
-        console.log(rotorAngle);
+
+        updatePositions();
     }
 };
 
-document.onmouseup = () => {
-    isRotating = false;
+rotor.ontouchmove = (e) => {
+    if (isRotating) {
+        const touch = e.touches[0];
+        const { x, y, width, height } = rotor.getBoundingClientRect();
+        const dx = touch.clientX - x - width / 2;
+        const dy = touch.clientY - y - height / 2;
+        rotorAngle = Math.atan2(dy, dx) - initialAngle;
+        rotor.style.transform = `rotate(${rotorAngle}rad)`;
+
+        updatePositions();
+        e.preventDefault();
+    }
 };
 
-const requestPermission = document.getElementById('requestPermission');
-const alphaElement = document.getElementById('alpha');
-const betaElement = document.getElementById('beta');
-const gammaElement = document.getElementById('gamma');
+function removeInfo() {
+    const info = document.querySelector('.info');
+    if (!info) return;
 
-let alpha, beta, gamma;
-
-requestDeviceOrientation();
-
-function handleOrientation(e) {
-  function formatValue(value) {
-    const sign = value < 0 ? '-' : ''; 
-    const absoluteValue = Math.abs(value).toFixed(2).padStart(6, '0'); 
-    return sign + absoluteValue;
-  }
-  
-  let alpha = formatValue(e.alpha);
-  let beta = formatValue(e.beta);
-  let gamma = formatValue(e.gamma);
-  
-  alphaElement.innerHTML = `Z-Achse: ${alpha}°`;
-  gammaElement.innerHTML = `Y-Achse: ${gamma}°`;
-  betaElement.innerHTML = `X-Achse: ${beta}°`;
+    info.classList.add('hide');
+    infoShown = false;
+    setTimeout(() => {
+        info.remove();
+    }, 1000);
 }
 
-async function requestDeviceOrientation() {
-  // check if iOs 13+
-  if (typeof DeviceOrientationEvent != "undefined" && typeof DeviceOrientationEvent.requestPermission === "function") {
-    // iOs 13+
-    try {
-      const permissionState = await DeviceOrientationEvent.requestPermission();
-      if (permissionState === 'granted') {
-        window.addEventListener("deviceorientation", handleOrientation);
-      }
-    } catch(error) {
-      console.error(error);
-    }
-  } else if ("DeviceOrientationEvent" in window) {
-    window.addEventListener("deviceorientation", handleOrientation);
-  } else {
-    alert("not supported");
-  }
-}
+function showInfo(message, showTime) {
+    infoShown = true;
+    const info = document.createElement('div');
+    info.classList.add('info');
+    info.innerHTML = message;
+    document.body.appendChild(info);
 
+    if (showTime == null) return;
+    setTimeout(removeInfo, showTime);
+}

@@ -3,7 +3,6 @@
 * {
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
 }
 
 body {
@@ -16,36 +15,43 @@ body {
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    overflow: hidden;
+    font-weight: 300;
+}
+
+.content {
+    width: 100%;
 }
 
 h1 {
     color: rgb(33, 41, 67);
     text-align: center;
-    font-size: 6vw;
+    font-size: min(8vh, 8vw);
+    user-select: none;
 }
 
 p {
     color: rgb(33, 41, 67);
     font-weight: bolder;
+    font-size: max(1.5vw, 1rem);
 }
 
 #alpha,
 #beta,
 #gamma {
-    width: 20vw;
     text-align: center;
+    white-space: nowrap;
 }
 
 .container {
     display: flex;
     justify-content: space-around;
-    margin: auto;
+    margin: 0 0.5rem;
 }
 
 .wasserwaage-container {
-    margin: auto;
+    margin: -8vw 0 -9vw 0;
     position: relative;
-    width: 90%;
 }
 
 .wasserwaage {
@@ -76,29 +82,62 @@ img {
     z-index: 3;
     width: 1.8%;
     position: absolute;
+    top: 0;
+    left: 0;
 }
 
 .axis {
-    height: 3rem;
-    width: min-content;
-    margin-top: 2rem;
+    height: min(3rem, 4vw);
+    width: auto;
 }
 
 .gamma .axis {
-    height: 6.5rem;
-    margin-top: 0;
-}
-
-#gamma {
-    margin-top: 1.2rem;
+    height: min(6.5rem, 7vw);
 }
 
 .alpha,
 .beta,
 .gamma {
     display: flex;
-    flex-direction: column;
-    flex-shrink: 0;
+    flex-wrap: wrap;
     justify-content: center;
     align-items: center;
+    color: black;
+    gap: 0 1rem;
+}
+
+.info {
+    position: fixed;
+    transform: translateY(-100%) translateX(-50%);
+    top: 0;
+    left: 50%;
+    background-color: rgb(37, 37, 48);
+    color: white;
+    border-radius: 1rem;
+    padding: 1rem;
+    animation: fadeIn 0.5s forwards;
+    z-index: 10;
+    box-shadow: 0 0 2rem -1rem black;
+}
+
+.info.hide {
+    animation: fadeOut 0.5s forwards;
+}
+
+@keyframes fadeIn {
+    0% {
+        transform: translateY(-100%) translateX(-50%);
+    }
+    100% {
+        transform: translateY(2em) translateX(-50%);
+    }
+}
+
+@keyframes fadeOut {
+    0% {
+        transform: translateY(2em) translateX(-50%);
+    }
+    100% {
+        transform: translateY(-100%) translateX(-50%);
+    }
 }
