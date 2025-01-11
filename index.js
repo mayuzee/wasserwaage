@@ -127,7 +127,7 @@ const bubbleHorizontalRange = new PointRange(
     new Point2D(0.522, 0.332)
 );
 
-let rotationX, rotationY;
+let normalizedOffsetX, normalizedOffsetY;
 let isRotating = false;
 let rotorAngle = 0;
 let initialAngle = Math.PI / 4;
@@ -173,8 +173,8 @@ function updateRotations() {
             console.warn("The orientation API isn't supported in this browser");
     }
 
-    rotationX = Math.min(1, Math.max(0, xOrientation / 90 + 0.5));
-    rotationY = Math.min(1, Math.max(0, yOrientation / 90 + 0.5));
+    normalizedOffsetX = Math.min(1, Math.max(0, xOrientation / 90 + 0.5));
+    normalizedOffsetY = Math.min(1, Math.max(0, yOrientation / 90 + 0.5));
 }
 
 function updatePositions() {
@@ -184,25 +184,28 @@ function updatePositions() {
     const rotorPosition = new Point2D(0.812, 0.32);
     rotorPosition.applyToElement(rotor, width, height);
 
-    const bubbleVerticalPosition = bubbleVerticalRange.position(rotationY);
-    const bubbleVerticalScaleX = 0.6 + Math.abs(0.5 - rotationY) * 0.8;
+    const bubbleVerticalPosition =
+        bubbleVerticalRange.position(normalizedOffsetY);
+    const bubbleVerticalScaleX = 0.6 + Math.abs(0.5 - normalizedOffsetY) * 0.8;
     bubbleVerticalPosition.x +=
-        (rotationX * 0.02 - 0.01) * (1 - bubbleVerticalScaleX);
+        (normalizedOffsetX * 0.02 - 0.01) * (1 - bubbleVerticalScaleX);
     bubbleVerticalPosition.applyToElement(bubbleVertical, width, height);
     scaleBubble(
         bubbleVertical,
         bubbleVerticalScaleX,
-        1 - Math.abs(0.5 - rotationY) * 0.8
+        1 - Math.abs(0.5 - normalizedOffsetY) * 0.8
     );
 
-    const bubbleHorizontalPosition = bubbleHorizontalRange.position(rotationX);
-    const bubbleHorizontalScaleY = 0.6 + Math.abs(0.5 - rotationX) * 0.8;
+    const bubbleHorizontalPosition =
+        bubbleHorizontalRange.position(normalizedOffsetX);
+    const bubbleHorizontalScaleY =
+        0.6 + Math.abs(0.5 - normalizedOffsetX) * 0.8;
     bubbleHorizontalPosition.y -=
-        (rotationY * 0.04 - 0.02) * (1 - bubbleHorizontalScaleY);
+        (normalizedOffsetY * 0.04 - 0.02) * (1 - bubbleHorizontalScaleY);
     bubbleHorizontalPosition.applyToElement(bubbleHorizontal, width, height);
     scaleBubble(
         bubbleHorizontal,
-        1 - Math.abs(0.5 - rotationX) * 0.5,
+        1 - Math.abs(0.5 - normalizedOffsetX) * 0.5,
         bubbleHorizontalScaleY
     );
 
@@ -221,11 +224,11 @@ function updatePositions() {
         rotorCenter.add(rotorDelta.multiply(-1))
     );
 
-    const positionFactorX = (0.5 - rotationX) * angleDelta.x;
-    const positionFactorY = (rotationY - 0.5) * angleDelta.y;
+    const positionFactorX = (0.5 - normalizedOffsetX) * angleDelta.x;
+    const positionFactorY = (normalizedOffsetY - 0.5) * angleDelta.y;
     const positionFactor = positionFactorX + positionFactorY + 0.5;
-    const offsetX = (rotationX - 0.5) * (1 - angleDelta.x / 2);
-    const offsetY = (0.5 - rotationY) * (1 - angleDelta.y / 2);
+    const offsetX = (normalizedOffsetX - 0.5) * (1 - angleDelta.x / 2);
+    const offsetY = (0.5 - normalizedOffsetY) * (1 - angleDelta.y / 2);
 
     const bubbleRotorPosition = rotorRange
         .position(Math.max(0, Math.min(1, positionFactor)))
