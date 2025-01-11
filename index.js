@@ -61,7 +61,7 @@ function handleOrientation(e) {
 
     function formatValue(value) {
         const sign = value < 0 ? '-' : '&nbsp;&nbsp;&nbsp;';
-        const absoluteValue = Math.abs(value).toFixed(0).padStart(3, '0');
+        const absoluteValue = Math.abs(value).toFixed(2).padStart(6, '0');
         return sign + absoluteValue;
     }
 
@@ -70,8 +70,8 @@ function handleOrientation(e) {
     gamma = e.gamma;
 
     alphaElement.innerHTML = `Z: ${formatValue(alpha)}°`;
-    gammaElement.innerHTML = `Y: ${formatValue(beta)}°`;
-    betaElement.innerHTML = `X: ${formatValue(gamma)}°`;
+    gammaElement.innerHTML = `Y: ${formatValue(gamma)}°`;
+    betaElement.innerHTML = `X: ${formatValue(beta)}°`;
     updatePositions();
 }
 
