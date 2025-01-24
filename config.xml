@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<widget
+xmlns="http://www.w3.org/ns/widgets"
+xmlns:cdv="http://cordova.apache.org/ns/1.0"
+id="at.wasserwaage.app"
+version="1.0.0"
+>
+<name>Wasserwaage</name>
+<description>Eine App zum Messen des Rotationswinkels</description>
+<author email="ihrbekommtmeine@email.nicht" href="https://ichhabkeine.web.site">Mariz und Enio</author>
+<content src="index.html" />
+<!-- hier kommen Preferences hinein -->
+<!-- hier kommen die gewünschten Plugins hinein -->
+<!-- hier kommt das Icon-Tag hinein -->
+<!-- hier folgen die plattformspezifischen Angaben: -->
+<platform name="android">...</platform>
+<platform name="ios">...</platform>
+<!-- hier noch Security-Settings -->
+<access origin="https://app.wasserwaage.at" />
+<allow-intent href="http://*/*" />
+<allow-intent href="https://*/*" />
+</widget>
