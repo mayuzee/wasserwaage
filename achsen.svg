@@ -9,6 +9,9 @@
    id="svg1"
    sodipodi:docname="achsen.svg"
    inkscape:version="1.4 (86a8ad7, 2024-10-11)"
+   inkscape:export-filename="y.png"
+   inkscape:export-xdpi="667.97668"
+   inkscape:export-ydpi="667.97668"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -24,9 +27,9 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
      inkscape:lockguides="true"
-     inkscape:zoom="0.73827583"
-     inkscape:cx="280.38301"
-     inkscape:cy="948.15511"
+     inkscape:zoom="0.36913791"
+     inkscape:cx="40.635219"
+     inkscape:cy="606.81927"
      inkscape:window-width="1440"
      inkscape:window-height="830"
      inkscape:window-x="-6"
@@ -74,7 +77,10 @@
        style="fill:#7d8185;fill-opacity:1;stroke:none;stroke-width:8.56063;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"
        inkscape:perspectiveID="#perspective9"
        inkscape:corner0="0.83457054 : -0.0096266233 : 0 : 1"
-       inkscape:corner7="0.45464799 : -0.0045815997 : 0.21906602 : 1">
+       inkscape:corner7="0.45464799 : -0.0045815997 : 0.21906602 : 1"
+       inkscape:export-filename="z.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300">
       <path
          sodipodi:type="inkscape:box3dside"
          id="path12"
@@ -143,7 +149,10 @@
     <path
        id="path22"
        style="fill:none;fill-opacity:1;stroke:#dd2141;stroke-width:2;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"
-       d="m 76.781126,146.62103 a 8.4069733,34.31515 67.856565 0 0 -9.507555,11.86042 8.4069733,34.31515 67.856565 0 0 37.322389,-6.94045 8.4069733,34.31515 67.856565 0 0 25.44783,-20.19143 8.4069733,34.31515 67.856565 0 0 -32.099961,4.80729" />
+       d="m 76.781126,146.62103 a 8.4069733,34.31515 67.856565 0 0 -9.507555,11.86042 8.4069733,34.31515 67.856565 0 0 37.322389,-6.94045 8.4069733,34.31515 67.856565 0 0 25.44783,-20.19143 8.4069733,34.31515 67.856565 0 0 -32.099961,4.80729"
+       inkscape:export-filename="x.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
     <path
        sodipodi:type="star"
        style="fill:#dd2141;fill-opacity:1;stroke:none;stroke-width:2.265;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"
@@ -245,7 +254,10 @@
     <path
        id="path40"
        style="fill:none;fill-opacity:1;stroke:#6ac326;stroke-width:1.92748;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"
-       d="m 115.34998,211.52304 a 35.922514,12.423581 88.45988 0 0 -10.99703,-15.83018 35.922514,12.423581 88.45988 0 0 -11.235498,36.81443 35.922514,12.423581 88.45988 0 0 13.568168,34.98447 35.922514,12.423581 88.45988 0 0 11.25904,-30.92023" />
+       d="m 115.34998,211.52304 a 35.922514,12.423581 88.45988 0 0 -10.99703,-15.83018 35.922514,12.423581 88.45988 0 0 -11.235498,36.81443 35.922514,12.423581 88.45988 0 0 13.568168,34.98447 35.922514,12.423581 88.45988 0 0 11.25904,-30.92023"
+       inkscape:export-filename="y.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
     <g
        sodipodi:type="inkscape:box3d"
        id="g39"
