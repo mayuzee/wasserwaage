@@ -124,6 +124,15 @@ img {
     animation: fadeOut 0.5s forwards;
 }
 
+#network-status {
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin: 3vw;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+}
+
 @keyframes fadeIn {
     0% {
         transform: translateY(-100%) translateX(-50%);
