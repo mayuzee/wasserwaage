@@ -15,7 +15,7 @@ body {
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    overflow: hidden;
+    overflow-x: hidden;
     font-weight: 300;
 }
 
@@ -131,6 +131,18 @@ img {
     margin: 3vw;
     padding: 0.5rem;
     border-radius: 0.5rem;
+}
+
+#save-values {
+    font-family: Poppins;
+    border: none;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    font-size: max(1.5vw, 1rem);
+    display: block;
+    margin: auto;
+    margin-top: 3rem;
+    cursor: pointer;
 }
 
 @keyframes fadeIn {
