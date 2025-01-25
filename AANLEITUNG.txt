@@ -1,0 +1,20 @@
+Was als nächstes pasiat:
+den "pages" ordner in den "www" ordner reintun >:( was macht der da draußen
+index.html ist keine page sondern das root-file, AUS DEM PAGES ORDNER RAUS UND DIREKT IN "www"!!!
+
+ich hab dir eine ser tole storage.js datei gemacht. da machst du dann so import {uwu} from 'storage.js'.
+Das ist so die Verbindung zur Datenbank und dem Local storage, das ganze datenspeichern hab ich progamiat du musst nur noch die funktionen zum richtigen zeitpunkt aufrufen.
+
+wenn du die seite lädst dann mach const items = uwu.makeMeAllTiltAngles('plis', online). Bei online kommt rein ob wir grad online sind oder nicht, je nachdem wird aus lokalem storage genommen oder datenbank.
+
+und dann kannst du items.forEach machen und für jedes item ein html element erstellen dass du dann mit container.appendChild(element) hinzufügst und so wird die liste aufgebaut.
+
+Die werte des winkels kannst du mit item.x y und z holen, das datum der erstellung ist in item.createdAt
+
+jedes dieser elemente hat für seinen mülleimer eine mülleimer.onclick funktion und wenn die geklickt wird machst du uwu.makeTiltAngleDead('plis', item.id, online (true oder false)), und machst element.remove() damit das element aus dem html verschwindet.
+
+bei window.onOnline oder so, halt das event wenn das window wieder online geht dann mach: uwu.skibidiCommitLocalTiltAnglesToServer('plis'); dann werden die sachen aus dem lokalstorage in den server geladen
+
+wenn der user auf den button "save current angle" oder so klickt dann mach uwu.hereTakeThisTiltAngle('plis', x, y, z, online)
+
+ruf an wen du aine frage hast ich bin meistens eh nicht am feld
